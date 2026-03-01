@@ -30,7 +30,7 @@ jobs:
       - name: Call ML Prediction API
         id: predict
         run: |
-          response='{"failure_probability": 0.65}'
+          response='{"failure_probability": 0.4}'
           echo "ML Response: $response"
           prob=$(echo $response | jq '.failure_probability')
           echo "failure_probability=$prob" >> $GITHUB_OUTPUT
