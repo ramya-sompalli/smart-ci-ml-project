@@ -33,3 +33,10 @@ jobs:
           echo "ML Response: $response"
           prob=$(echo $response | jq '.failure_probability')
           echo "failure_probability=$prob" >> $GITHUB_OUTPUT
+                - name: Run Full Tests
+        if: ${{ steps.predict.outputs.failure_probability > 0.6 }}
+        run: echo "High risk commit → Running full tests"
+
+      - name: Skip Heavy Tests
+        if: ${{ steps.predict.outputs.failure_probability <= 0.6 }}
+        run: echo "Low risk commit → Skipping heavy tests"
