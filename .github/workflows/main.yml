@@ -23,8 +23,9 @@ jobs:
 
       - name: Pipeline Running
         run: echo "Smart CI pipeline is active!"
+
       - name: Install jq
-        run: sudo apt-get install jq
+        run: sudo apt-get install -y jq
 
       - name: Call ML Prediction API
         id: predict
@@ -33,7 +34,8 @@ jobs:
           echo "ML Response: $response"
           prob=$(echo $response | jq '.failure_probability')
           echo "failure_probability=$prob" >> $GITHUB_OUTPUT
-                - name: Run Full Tests
+
+      - name: Run Full Tests
         if: ${{ steps.predict.outputs.failure_probability > 0.6 }}
         run: echo "High risk commit → Running full tests"
 
